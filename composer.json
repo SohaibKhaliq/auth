@@ -1,0 +1,21 @@
+{
+    "name": "sohaib/authentication",
+    "description": "A simple authentication and authorization",
+    "type": "project",
+    "license": "MIT",
+    "autoload": {
+        "psr-4": {
+            "Sohaib\\Authentication\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "SohaibKhaliq",
+            "email": "sohaibkhaliq510@gmail.com"
+        }
+    ],
+    "minimum-stability": "stable",
+    "require": {
+        "vlucas/phpdotenv": "^5.6"
+    }
+}
