@@ -1,6 +1,6 @@
 <?php
 require_once '../vendor/autoload.php';
-//uacs pcnh zfdu jwzj
+
 use PHPMailer\PHPMailer\PHPMailer;
 
 $connection = new mysqli('localhost', 'root', '201734', 'auth', 3306);
@@ -35,6 +35,7 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
         // header("Location: record.php");
     } else {
         echo "<script>alert('data is not inserted')</script>";
+        exit();
     }
 
     $mail=new PHPMailer();
@@ -43,9 +44,9 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
         $mail->Host="smtp.gmail.com";
         $mail->SMTPAuth=true;
         $mail->Username="sohaibkhaliq510@gmail.com";
-        $mail->Password="uacs pcnh zfdu jwzj";
+        $mail->Password="";
         $mail->SMTPSecure="tls";
-        $mail->Port=465;
+        $mail->Port=587;
         $mail->setFrom("sohaibkhaliq510@gmail.com");
         $mail->addAddress($email);
         $mail->isHTML(true);
