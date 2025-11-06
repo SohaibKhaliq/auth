@@ -1,4 +1,11 @@
 <?php
+session_start();
+
+if (isset($_SESSION['user_id']) && isset($_SESSION['username'])) {
+    header("Location: dashboard.php");
+    exit();
+}
+
 require_once '../vendor/autoload.php';
 
 use PHPMailer\PHPMailer\PHPMailer;
@@ -17,15 +24,15 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
     $password = md5($_POST['password']);
     $email = $_POST['email'];
 
-    $query="select email from users where email='$email' ";
-    $res=mysqli_query($connection,$query);
-    $num=mysqli_num_rows($res);
-    if($num>0){
+    $query = "select email from users where email='$email' ";
+    $res = mysqli_query($connection, $query);
+    $num = mysqli_num_rows($res);
+    if ($num > 0) {
         echo "<script>alert('Email already registered')</script>";
         exit();
         header("Location: index.php");
     }
-    $token=bin2hex(random_bytes(8));
+    $token = bin2hex(random_bytes(8));
 
     // print $name . '</br>' .$cnic . '</br>' .$password . '</br>' .$city . '</br>';
     $sql = "insert into  users(name,password,email,token)values ('$fullname','$password','$email','$token') ";
@@ -38,24 +45,23 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
         exit();
     }
 
-    $mail=new PHPMailer();
-    try{
+    $mail = new PHPMailer();
+    try {
         $mail->isSMTP();
-        $mail->Host="smtp.gmail.com";
-        $mail->SMTPAuth=true;
-        $mail->Username="sohaibkhaliq510@gmail.com";
-        $mail->Password="";
-        $mail->SMTPSecure="tls";
-        $mail->Port=587;
+        $mail->Host = "smtp.gmail.com";
+        $mail->SMTPAuth = true;
+        $mail->Username = "sohaibkhaliq510@gmail.com";
+        $mail->Password = "";
+        $mail->SMTPSecure = "tls";
+        $mail->Port = 587;
         $mail->setFrom("sohaibkhaliq510@gmail.com");
         $mail->addAddress($email);
         $mail->isHTML(true);
-        $mail->Subject="Verify your email";
-        $mail->Body="Click the link to verify your email <a href='http://localhost/auth/src/verify.php?token=$token'>Verify Email</a>";
+        $mail->Subject = "Verify your email";
+        $mail->Body = "Click the link to verify your email <a href='http://localhost/auth/src/verify.php?token=$token'>Verify Email</a>";
         $mail->send();
         echo "<script>alert('Verification link has been sent to your email')</script>";
-    }
-    catch(Exception $e){
+    } catch (Exception $e) {
         echo "<script>alert('Error: {$e->getMessage()}')</script>";
     }
 }
@@ -93,7 +99,7 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
             <div class="user_options-forms" id="user_options-forms">
                 <div class="user_forms-login">
                     <h2 class="forms_title">Login</h2>
-                    <form class="forms_form" action="<?php echo $_SERVER['PHP_SELF'] ?>" method="post" class="register-form">>
+                    <form class="forms_form" action="login.php" method="post" class="register-form">>
                         <fieldset class="forms_fieldset">
                             <div class="forms_field">
                                 <input type="email" placeholder="Email" class="forms_field-input" name="email" required autofocus />
